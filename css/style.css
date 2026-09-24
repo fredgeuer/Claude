@@ -340,3 +340,67 @@ footer a:hover { color: var(--primary); }
   html { scroll-behavior: auto; }
   * { transition: none !important; }
 }
+
+/* ---------- Campos a preencher ([X], nome do método etc.) ---------- */
+.todo { background: var(--mustard-soft); color: #7a5608; border-radius: 6px; padding: 0 4px; outline: 1px dashed var(--mustard); }
+.pricing .todo { color: #3b2a05; }
+
+/* ---------- Hero: pré-título ---------- */
+.pretitle {
+  max-width: 640px; margin: 0 auto;
+  font-family: var(--font-title); font-weight: 800; font-size: 14px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--primary);
+}
+.hero h1 { text-transform: uppercase; font-size: clamp(28px, 5.4vw, 50px); }
+
+/* ---------- Situações ---------- */
+.situations { display: grid; gap: 16px; max-width: 900px; margin: 0 auto; }
+@media (min-width: 720px) { .situations { grid-template-columns: repeat(2, 1fr); } }
+.situation {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow);
+}
+.situation .icon-badge { margin-bottom: 0; flex-shrink: 0; }
+.situation p { font-size: 17px; font-weight: 500; }
+.icon-badge.warm { background: var(--cta-soft); color: var(--cta-strong); }
+
+/* ---------- Ideal para ---------- */
+.ideal-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 22px 0 6px; }
+.ideal-chips span {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 10px 16px;
+  font-weight: 600; font-size: 15px; box-shadow: var(--shadow);
+}
+.ideal-chips .icon { color: var(--primary); }
+
+/* ---------- CTA final ---------- */
+.final-cta .btn { margin-top: 28px; }
+
+/* ---------- Plano básico / upsell ---------- */
+.basic-link { text-align: center; margin-top: 22px; }
+.basic-link button {
+  background: none; border: 0; color: rgba(255, 255, 255, .8); font: inherit; font-size: 15px;
+  text-decoration: underline; cursor: pointer;
+}
+.basic-link button:hover { color: #fff; }
+.modal {
+  position: fixed; inset: 0; z-index: 100; background: rgba(15, 40, 42, .6);
+  display: grid; place-items: center; padding: 16px; overflow-y: auto;
+}
+.modal[hidden] { display: none; }
+.modal-card {
+  position: relative; width: 100%; max-width: 440px; background: var(--surface); border-radius: 24px;
+  padding: 32px 24px 24px; text-align: center; box-shadow: var(--shadow-lg);
+}
+.modal-card h3 { font-size: 24px; font-weight: 900; margin-top: 14px; }
+.modal-card > p { color: var(--text-muted); margin-top: 10px; }
+.modal-close {
+  position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%;
+  border: 0; background: var(--bg-alt); color: var(--text-muted); display: grid; place-items: center; cursor: pointer;
+}
+.upsell-prices { display: flex; justify-content: center; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 18px; font-family: var(--font-title); font-weight: 900; }
+.upsell-prices .old { color: var(--text-muted); text-decoration: line-through; font-size: 18px; }
+.upsell-prices .new { color: var(--primary-strong); font-size: 30px; }
+.modal-card .check-list { text-align: left; margin: 18px 0 20px; }
+.modal-card .check-list .icon { color: var(--mustard); }
+.decline { display: block; margin-top: 14px; font-size: 14px; color: var(--text-muted); }

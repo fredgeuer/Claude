@@ -1,13 +1,62 @@
 /* ==========================================================
-   Configuração: cole aqui o link do seu checkout.
-   Todos os botões com data-checkout passam a usar este link.
+   CONFIGURAÇÃO DA OFERTA — preencha aqui.
+   Campo vazio ("") aparece destacado em amarelo na página,
+   para você não esquecer de preencher antes de publicar.
    ========================================================== */
-var CHECKOUT_URL = "#";
+var CONFIG = {
+  atividades: "",       // número real de atividades, ex.: "120"
+  metodo: "",           // nome próprio do método, ex.: "Método Sessão Pronta"
+  oferta: "",           // nome da oferta, ex.: "Fala em Foco" (vira "Kit Fala em Foco")
+  valorKit: "",         // valor separado do kit principal, só números, ex.: "97,00"
+  precoCompleto: "27,90",
+  precoBasico: "19,90",
+  checkoutCompleto: "#", // link do checkout do plano completo
+  checkoutBasico: "#"    // link do checkout do plano básico
+};
 
 (function () {
-  // Link de checkout
-  if (CHECKOUT_URL && CHECKOUT_URL !== "#") {
-    document.querySelectorAll("[data-checkout]").forEach(function (a) { a.href = CHECKOUT_URL; });
+  function toNum(v) { return Number(String(v).replace(/\./g, "").replace(",", ".")); }
+  function money(n) { return n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+
+  // Textos da configuração
+  document.querySelectorAll("[data-cfg]").forEach(function (el) {
+    var v = CONFIG[el.dataset.cfg];
+    if (v) el.textContent = v; else el.classList.add("todo");
+  });
+  if (CONFIG.oferta) document.title = "Kit " + CONFIG.oferta + " — atividades para fonoaudiologia infantil";
+
+  // Soma da tabela de valor ("Você pagaria" e "De R$")
+  var total = null;
+  if (CONFIG.valorKit) {
+    total = toNum(CONFIG.valorKit);
+    document.querySelectorAll("[data-valor]").forEach(function (el) { total += Number(el.dataset.valor); });
+  }
+  document.querySelectorAll("[data-total]").forEach(function (el) {
+    if (total !== null) el.textContent = money(total); else el.classList.add("todo");
+  });
+
+  // Diferença do upsell ("por só R$8 a mais")
+  var diff = toNum(CONFIG.precoCompleto) - toNum(CONFIG.precoBasico);
+  document.querySelectorAll("[data-diff]").forEach(function (el) {
+    el.textContent = Number.isInteger(diff) ? String(diff) : money(diff);
+  });
+
+  // Links de checkout
+  document.querySelectorAll("[data-checkout]").forEach(function (a) {
+    var url = a.dataset.checkout === "basico" ? CONFIG.checkoutBasico : CONFIG.checkoutCompleto;
+    if (url && url !== "#") a.href = url;
+  });
+
+  // Upsell: abre ao escolher o plano básico
+  var modal = document.querySelector("[data-upsell]");
+  if (modal) {
+    var closeModal = function () { modal.hidden = true; document.body.style.overflow = ""; };
+    document.querySelectorAll("[data-open-upsell]").forEach(function (b) {
+      b.addEventListener("click", function () { modal.hidden = false; document.body.style.overflow = "hidden"; });
+    });
+    modal.querySelector("[data-close-upsell]").addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !modal.hidden) closeModal(); });
   }
 
   // Imagens: enquanto o arquivo não existir, mostra o espaço reservado
